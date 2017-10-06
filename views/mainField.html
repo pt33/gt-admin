@@ -1,0 +1,6 @@
+<select class="form-control" id="fileMainField">
+    <option value="">请选择</option>
+    {% for field in tables%}
+    <option value="{{field.name}}">{{field.title}}</option>
+    {% endfor%}
+</select>

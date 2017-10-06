@@ -1,0 +1,48 @@
+<div id="toolbarreplyManager" {% if toolbarId != 'toolbarreplyManager' %} hidden {%endif%}>
+    <div class="form-inline" role="form" style="margin-top: -2px;">
+        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择开始时间" id="startTime">
+        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择结束时间" id="endTime">
+        <input type="text" class="form-control" placeholder="请输入标题关键字..." id="title">
+        <button type="button" class="btn btn-primary p-h-xxl" onclick="searchQA()">查询</button>
+        <button type="button" class="btn btn-instagram p-h-xxl" onclick="reSearch()">重置</button>
+        <button type="button" class="btn btn-success status0" onclick="batchOP('1')" hidden>批量通过</button>
+        <button type="button" class="btn btn-facebook status1 status20 status-2 status-1" onclick="batchOP('0')" hidden>批量撤消</button>
+        <button type="button" class="btn btn-google status0" onclick="batchOP('-1')" hidden>批量拒绝</button>
+        <button type="button" class="btn btn-warning status0 status1 status2 status-1" onclick="batchOP('-2')" hidden>批量删除</button>
+        <button type="button" class="btn btn-info  status210" onclick="batchOP('3')" hidden>批量标星</button>
+        <button type="button" class="btn btn-github  status211" onclick="batchOP('4')" hidden>批量置灰</button>
+        <button class="btn btn-rss status0 status1" type="button" data-toggle="dropdown">
+            批量指派&nbsp;&nbsp;<span class="caret"></span>
+        </button>
+        <div class="dropdown-menu title-caret col-sm-12" role="menu">
+            <div class="form-inline" role="form">
+                <div style="border-bottom: 1px solid #ddd;padding:20px;background-color: #f5f5f5;"><h4 style="margin: 0px">请选择需要指派任务的古籍馆专家用户</h4></div>
+                {% for reply in replyer%}
+                <div class="checkbox" style="padding:15px 0 15px 20px;">
+                    <label>
+                        <input type="checkbox" name="replyCheck" class="replyCheck" value="{{reply._id.toString()}}">
+                        {{reply.username}}
+                    </label>
+                </div>
+                {% endfor %}
+                <div style="border-top: 1px solid #ddd;padding:15px 20px;display:flex;">
+                    <div class="pull-right col-sm-12" style="padding: 0">
+                        <button type="button" class="btn btn-primary p-h-xxl pull-right" onclick="batchOP('2')">确定</button>
+                        <button type="button" class="btn btn-default p-h-xxl pull-right" style="margin-right: 10px;" onclick="">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="toolbarreply" {% if toolbarId != 'toolbarreply' %} hidden {%endif%}>
+    <div class="form-inline" role="form" style="margin-top: -2px;">
+        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择开始时间" id="reply_s">
+        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择结束时间" id="reply_e">
+        <input type="text" class="form-control" placeholder="请输入标题关键字..." id="reply_title">
+        <button type="button" class="btn btn-primary p-h-xxl" onclick="searchReply(this)">查询</button>
+        <button type="button" class="btn btn-instagram p-h-xxl" onclick="reSearchReply(this)">重置</button>
+    </div>
+</div>

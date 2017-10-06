@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">{{table.title}}明细查看</h4>
+    </div>
+    <div class="modal-body" style="padding-bottom: 0px;padding-top: 5px;" id="showListDetailModelBody">
+        {% if infos.length === 1 %}
+        <form class="form-horizontal">
+            {% for field in fields %}
+            <div class="form-group">
+                <label style="font-size: 16px;font-weight: 400;text-align: right;" class="col-sm-2">{{field.title}}: </label>
+                <label style="font-size: 16px;font-weight: 400;text-align: left;" class="col-md-9 col-sm-10">{{field.value}}</label>
+            </div>
+            {% endfor %}
+        </form>
+        {% else %}
+        <input type="hidden" id='detailFieldInfo' value="{{fieldInfo}}"/>
+        <input type="hidden" id='detailTableId' value="{{table._id.toString()}}"/>
+        <table id="subListDetail" class="display table table-no-bordered table-hover" style="font-size: 15px;"></table>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-large" data-dismiss="modal" style="width: 100px;margin-top: 10px;">关闭</button>
+    </div>
+</div>
+

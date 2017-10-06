@@ -1,0 +1,6 @@
+<select class="form-control" id="childGroupTitle">
+    <option value="">请选择标题对应字段</option>
+    {% for field in fields%}
+        <option value="{{field.name}}">{{field.title}}</option>
+    {% endfor%}
+</select>

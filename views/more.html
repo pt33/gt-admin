@@ -1,0 +1,13 @@
+
+{% for info in infos %}
+<div class="div-pdf {{pdfClass}}" style="padding-right: 0px;">
+    <div class="panel panel-white">
+        <div class="panel-heading" style="height: 35px;padding: 10px;">
+            <h3 class="panel-title">{{ info.name }}</h3>
+        </div>
+        <div class="panel-body" style="padding: 0 10px 10px 10px;">
+            <div id="pdf-{{info.url}}" class="{{info.url}} card"></div>
+        </div>
+    </div>
+</div>
+{% endfor%}

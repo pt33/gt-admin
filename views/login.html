@@ -1,0 +1,90 @@
+<html>
+<head>
+
+    <!-- Title -->
+    <title>登录</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Styles -->
+    <link href='/css/googlefont.css' rel='stylesheet' type='text/css'>
+    <link href="/plugins/pace-master/themes/blue/pace-theme-flash.css" rel="stylesheet"/>
+    <link href="/plugins/uniform/css/uniform.default.min.css" rel="stylesheet"/>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/fontawesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/line-icons/simple-line-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/offcanvasmenueffects/css/menu_cornerbox.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/waves/waves.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/switchery/switchery.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Theme Styles -->
+    <link href="/css/modern.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/themes/dark.css" class="theme-color" rel="stylesheet" type="text/css"/>
+    <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="page-login">
+<main class="page-content" style="height:100%;width:100%;margin:0 0 0 0;">
+    <div class="page-inner" style="height: 100%;background-image: url('images/background.jpg');background-repeat:no-repeat;background-size: 100% 100%">
+        <div id="main-wrapper" >
+            <div class="row">
+                <div class="col-md-3 center" style="padding-top: 10%;">
+                    <div class="login-box" style="color:#C9C9C9;">
+                        <p class="text-lg text-center" style="letter-spacing:.1em;padding-bottom: 50px;">中华寻根网管理平台</p>
+                        <!--<p class="text-center m-t-md">请输入管理员账号登录</p>-->
+                        <form class="m-t-md" id="loginForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入账号">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                            </div>
+                            <div class="form-group" style="padding-top: 5px;">
+                                <div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="remindMe"> 记住我
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="loginBtn" class="btn btn-success btn-block">登录</button>
+                            </form>
+                        <p class="text-center m-t-xs text-sm" style="padding-top: 70%;">&copy; Copyright 中华寻根网 All Rights Reserved</p>
+                    </div>
+                </div>
+            </div><!-- Row -->
+        </div><!-- Main Wrapper -->
+    </div><!-- Page Inner -->
+</main><!-- Page Content -->
+
+       <!-- Javascripts -->
+<script src="/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="/plugins/pace-master/pace.min.js"></script>
+<script src="/plugins/jquery-blockui/jquery.blockui.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/plugins/switchery/switchery.min.js"></script>
+<script src="/plugins/uniform/jquery.uniform.min.js"></script>
+<script src="/plugins/offcanvasmenueffects/js/classie.js"></script>
+<script src="/plugins/waves/waves.min.js"></script>
+<script src="/plugins/toastr/toastr.min.js"></script>
+<script src="/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/js/aes.js"></script>
+<script src="/js/mine.js"></script>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

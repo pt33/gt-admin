@@ -1,0 +1,257 @@
+<div id="main-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white" style="padding-bottom:0px;">
+                <div class="panel-body">
+                    <div role="tabpanel">
+                        <ul class="nav nav-tabs" role="tablist" style="font-weight: 500;">
+                            <li role="presentation" class="dropdown active" id="li-main">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">资料库管理 <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="javascript:void(0)" onclick="showTableList(this)">基础数据管理</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showTemplateList(this)">导入模板管理</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showErrorList(this)">错误日志查看</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showLocationList(this)">基础坐标维护</a></li>
+                                </ul>
+                            </li>
+                            {% for type in tables %}
+                            <li role="presentation" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{type._id}} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    {% for obj in type.title %}
+                                   <li id="li-{{obj.name}}">
+                                       <a href="javascript:void(0)" onclick="showTableDetail(this,'{{obj._id.toString()}}','{{obj.name}}')">{{obj.title}}
+                                           <input type="hidden" value="{{obj._id.toString()}}"/>
+                                       </a>
+                                   </li>
+                                    {% endfor%}
+                                </ul>
+                            </li>
+                            {% endfor%}
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabContent">
+                                <div id="toolbardata">
+                                    <div class="form-inline" role="form" style="margin-top: -2px;">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" onclick="addTable()">新建资料库</button>
+                                    </div>
+                                </div>
+                                <table id="tableListdata" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table>
+                            </div>
+                            <div class="tab-pane" id="tabTemplate" style="display: none;">
+                                <div id="toolbartemplate">
+                                    <div class="form-inline" role="form" style="margin-top: -2px;">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTemplateModal">新建解析数据模板</button>
+                                        <button type="button" class="btn btn-flickr" onclick="showMarcUploader()">新建marc模板类型</button>
+                                    </div>
+                                </div>
+                                <table id="tableListtemplate" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table>
+                            </div>
+                            <div class="tab-pane" id="tabLog" style="display: none;">
+                                <div id="toolbarlog">
+                                    <div class="form-inline" role="form" style="margin-top: -2px;">
+                                        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择开始时间">
+                                        <input type="text" class="form-control date-picker" date-language="zh-CN" placeholder="请选择结束时间">
+                                        <button type="button" class="btn btn-flickr" onclick="">查询</button>
+                                    </div>
+                                </div>
+                                <table id="tableListlog" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table>
+                            </div>
+                            <div class="tab-pane" id="tabLocation" style="display: none;" >
+                                <table id="tableListlocation" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table>
+                            </div>
+                            {% for type in tables %}
+                            {% for obj in type.title %}
+                            <div class="tab-pane" id="tabContent{{obj.name}}" style="display: none;padding-top: 5px;margin-bottom: -10px;">
+                                <div id="toolbar{{obj.name}}">
+                                    <div class="form-inline" role="form" style="margin-top: -3px;">
+                                        <label style="margin: 0 10em 0 0;font-weight: 500;color:#095D85;font-size: 17.5px; ">{{obj.title}}数据</label>
+                                        <button type="button" class="btn btn-github col-xs-pull-1 col-sm-pull-1 col-md-pull-1" onclick="clearParams('{{obj.name}}')">清除</button>
+                                        <button type="button" class="btn btn-rss light col-xs-pull-1 col-sm-pull-2 col-md-pull-2" data-toggle="collapse" data-target="#collapseExample{{obj.name}}">显示查询条件</button>
+                                        <button type="button" class="btn btn-primary col-xs-pull-1 col-sm-pull-1 col-md-pull-1" onclick="querySubList('{{obj._id.toString()}}','{{obj.name}}')">搜索</button>
+                                        <button type="button" class="btn btn-google col-xs-pull-1 col-sm-pull-2 col-md-pull-2" id="{{obj._id.toString()}}_btn" onclick="importData(this)">批量导入</button>
+                                    </div>
+                                    {% if obj.fields.length > 0 %}
+                                    <div class="collapse col-xs-12 col-sm-12 col-md-12" id="collapseExample{{obj.name}}" style="padding: 20px 0 0 0;">
+                                        <div class="form-inline" role="form" >
+                                            {% set i = 1 %}
+                                            {% for field in obj.fields %}
+                                                {% if field.needQuery %}
+                                                    <input type="text" class="form-control col-xs-pull-1 col-sm-pull-1 col-md-pull-1" style="margin: 0 5px {% if loop.index == obj.fields.length %} 0 {% else %} 10px {% endif %} 0;" id="{{obj.name}}_{{field.name}}" placeholder="{{field.title}}关键字...">
+                                                    {% if i % 3 == 0 && i != 0 %}
+                                                        <br>
+                                                    {% endif %}
+                                                    {% set i = i + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <input type="hidden" id="subTableId">
+                                <table id="tableList{{obj.name}}" class="display table table-no-bordered table-hover" style="font-size: 15px;" data-show-columns="true"></table>
+                            </div>
+                            {% endfor%}
+                            {% endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addTableModel" tabindex="-1" role="dialog">
+    <input type="hidden" id="tableId">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" style="font-size: 16px;" id="tableModelTitle">创建资料库</h4>
+            </div>
+            <div class="modal-body" style="padding-top: 10px;padding-bottom: 10px;">
+                <form id="addTableForm" class="form-horizontal">
+                <div class="form-group col-sm-12">
+                    <input type="text" class="form-control col-sm-12" id="tableName" name="tableName" placeholder="请输入资料库名称....">
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6" style="padding-right: 0px;">
+                        <input type="text" class="form-control" id="tableType" name="tableType" value="" placeholder="请输入资料库分类....">
+                    </div>
+                    <div class="col-sm-5" style="padding-left: 0px;">
+                        <select class="form-control" id="chooseTableType" onchange="changeType(this)">
+                            <option value="">请选择一个分类</option>
+                        {% for type in tables %}
+                            <option value="{{type._id}}">{{type._id}}</option>
+                        {% endfor%}
+                         </select>
+                    </div>
+                </div>
+                    <div class="help-block">可选择现有分类或输入分类名称，自动创建新的分类</div>
+                    <div class="modal-footer" style="padding-bottom:5px;padding-top: 5px;">
+                <button type="button" class="btn btn-default" style="width: 80px;" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" style="width: 80px;" onclick="saveTable()">保存</button>
+            </div>
+        </form></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmTableModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="adminConfirmTitle">是否确认删除该资料库？</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn"  style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" onclick="deleteTable()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmTemplateModal">
+    <input type="hidden" id="templateId">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">是否确认删除该模板？</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"  style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" onclick="deleteTemplate()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showFileModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" id="showFileModelContent" style="width: 80%;height: 70%;margin-top: 5%;overflow: scroll;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">详情查看</h4>
+            </div>
+            <div class="modal-body" style="background-color: #F1F4F9;padding-bottom: 0px;padding-top: 5px;">
+                <p id='showFileModelBody' style="font-size: 15px;line-height: 1.8em;padding-bottom: 5px;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-large" data-dismiss="modal" style="width: 100px;margin-top: 10px;">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showListDetailModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" id="showListDetailModelContent" style="width: 80%;height: 70%;margin-top: 5%;overflow: scroll;">
+
+    </div>
+</div>
+
+<div class="modal fade" id="addTemplateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" style="font-size: 16px;">创建解析数据模板</h4>
+            </div>
+            <form id="addTemplateForm">
+                <div class="modal-body" style="padding-top: 10px;padding-bottom: 10px;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="templateName" name="templateName" placeholder="请输入模板名称....">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="templateType" name="templateType" onchange="showMarc(this)">
+                            <option value="">请选择模板类型</option>
+                            <option value="excel">excel</option>
+                            <option value="marc">marc</option>
+                            <option value="xml">xml</option>
+                        </select>
+                        <select class="form-control" id="marcType" name="marcType" style="display: none">
+                            <option value="">请选择marc模板类型</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="templateTable" name="templateTable">
+                            <option value="">请选择对应资料库</option>
+                            {% for table in templateTables%}
+                            <option value="{{table._id.toString()}}">{{table.title}}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer" align="right;">
+                    <button type="button" class="btn btn-default" style="width: 80px;" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" style="width: 80px;" onclick="saveTemplate()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addMarcTypeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 20%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" style="font-size: 16px;">创建marc模板类型</h4>
+            </div>
+            <form id="addMarcTypeForm">
+                <div class="modal-body" style="padding-top: 10px;padding-bottom: 10px;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="marcTypeName" name="marcTypeName" placeholder="请输入marc模板类型名....">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0px;padding-left: 20px;padding-right: 20px;"><div id="marcTypeUploader"></div></div>
+                <div class="modal-footer" align="right;">
+                    <button type="button" class="btn btn-default" style="width: 80px;" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" style="width: 80px;" onclick="saveMarcType()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

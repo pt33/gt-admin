@@ -1,0 +1,73 @@
+<div id="main-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white" style="padding-bottom:0px;">
+                <div class="panel-heading" style="margin: 0 0 0 0;">
+                    <h4 class="panel-title" style="font-size: 16px;">{{headTitle}}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div id="toolbaradmins">
+                            <div class="form-inline" role="form" style="margin-top: -2px;">
+                                <button id="{{headBtnId}}" type="button" class="btn btn-primary btn-group-lg" data-moveable="true" data-toggle="modal" data-target="#{{headMode}}">{{headBtnTitle}}</button>
+                            </div>
+                        </div>
+                        <table id="tableListadmins" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" style="font-size: 16px;">创建系统账户</h4>
+            </div>
+            <form id="addAdminForm">
+                <div class="modal-body" style="padding-top: 10px;padding-bottom: 10px;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="adminName" name="adminName" placeholder="请输入账号名称....">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="请输入账号密码....">
+                        <div class="help-block">密码为空时，会自动分配初始密码给该账号。</div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="adminRole" name="adminRole">
+                            <option value="">请选择角色</option>
+                            {% for role in roles%}
+                            <option value="{{role._id.toString()}}">{{role.name}}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer" align="right;">
+                    <button type="button" class="btn btn-default" style="width: 80px;" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" style="width: 80px;" onclick="saveAdmin()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmAdminModal">
+    <input type="hidden" id="adminConfirmType"/>
+    <input type="hidden" id="adminId"/>
+    <input type="hidden" id="resetName"/>
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <span class="modal-title" id="adminConfirmTitle" style="font-size: 16px;font-weight: 500;">是否确认删除该管理员账号？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn" style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" id="confirmAdminBtn" onclick="adminConfirmClick()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>

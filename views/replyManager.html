@@ -1,0 +1,50 @@
+
+<div class="page-title" style="padding-top:20px;padding-bottom:20px;background-color: #FFFFFF;">
+    <h3>{{headTitle}}</h3>
+</div>
+
+<div id="main-wrapper">
+    <div class="row">
+        <input type="hidden" value="{{cnts}}" id="cnts"/>
+        <div class="col-md-12" style="padding:0;">
+            <div class="panel" style="marging-bottom:0;box-shadow:0 0 0 0;border:0;">
+                <div class="panel-body" style="background-color: #e9edf2;padding:0 20px 0 0;">
+                    <div class="col-md-2" style="padding: 0 15px;">
+                        <ul class="list-unstyled mailbox-nav"  style="padding: 0 10px" id="questionNav">
+                            <li class="href-primary"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:{$ne:999}}), this)">
+                                <i class="fa fa-tasks"></i>全部</a></li>
+                            <li class="active href-rss"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:0}), this)"><i class="fa fa-exclamation-circle"></i>未审核 <span class="badge btn-rss pull-right" id="cnt0"></span></a></li>
+                            <li class="href-twitter"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:1}), this)"><i class="fa fa-send"></i>未指派 <span class="badge btn-twitter pull-right" id="cnt1"></span></a></li>
+                            <li class="href-facebook"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:2, reply:0}), this)"><i class="fa fa-adjust"></i>未回复 <span class="badge btn-facebook pull-right" id="cnt2"></span></a></li>
+                            <li class="href-success"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:2, reply:{$ne:0}, isCommonly:0}), this)"><i class="fa fa-check-square-o"></i>已回复</a></li>
+                            <li class="href-danger"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:-1}), this)"><i class="fa fa-close"></i>已拒绝</a></li>
+                            <li class="href-warning"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:-2}), this)"><i class="fa fa-trash"></i>已删除</a></li>
+                            <li class="href-info"><a href="javascrpt:void(0)" onclick="reloadQAList(JSON.stringify({status:2,isCommonly:1,reply:{$ne:0}}), this)"><i class="fa fa-star"></i>已标星</a></li>
+                            <li class="href-flickr"><a href="javascrpt:void(0)" onclick="showTagList(this)"><i class="fa fa-edit"></i>问题类型管理</a></li>
+                        </ul>
+                    </div>
+                    <div class="table-responsive" style="background-color: #FFFFFF; padding: 20px;" id="questionLoadDiv">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="batchConfirmModal">
+    <input type="hidden" id="qaStatus">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <span class="modal-title" id="batchConfirmTitle" style="font-size: 16px;font-weight: 500;"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn" style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" onclick="batchConfirmClick()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

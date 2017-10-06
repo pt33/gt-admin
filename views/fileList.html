@@ -1,0 +1,34 @@
+<div class="page-title" style="padding-top:10px;padding-bottom:10px;">
+    <h3>文件-{{table.title}}&nbsp;明细查看</h3>
+    <div class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href="#" onclick="backToMain('/index')">首页</a></li>
+            <li><a href="#" onclick="backToData('{{table.tableId}}','{{table.name}}')">返回</a></li>
+        </ol>
+    </div>
+</div>
+{% if w %}
+<input type="hidden" id= 'pdf-view-w' value="{{w}}"/>
+<input type="hidden" id="pdf-view-h" value="{{h}}"/>
+<input type="hidden" id="pdf-view-page" value="{{pagenum}}"/>
+{% endif %}
+
+<div id="main-wrapper" style="background-color: #F1F4F9;padding:20px;margin: 0 0 0 0;">
+    <div class="sortable">
+        <div class="row" id="filePanel" style="padding-right: 15px;overflow: scroll;">
+            {% for info in infos %}
+            <div class="div-pdf" style="padding-right: 0px;">
+                <div class="panel panel-white">
+                    <div class="panel-heading" style="height: 35px;padding: 10px;">
+                        <h3 class="panel-title">{{ info.name }}</h3>
+                    </div>
+                    <div class="panel-body" style="padding: 0 10px 10px 10px;">
+                        <div id="pdf-{{info.url}}" class="{{info.url}} card"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+</div>
+

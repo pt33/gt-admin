@@ -1,0 +1,34 @@
+<div class="page-title" style="padding-top:20px;padding-bottom:20px;background-color: #FFFFFF;">
+    <h3>{{headTitle}}</h3>
+</div>
+
+<div id="main-wrapper">
+    <div class="row">
+        <input type="hidden" value="{{cnts}}" id="cnts"/>
+        <div class="col-md-12" style="padding:0">
+            <div class="panel" style="marging-bottom:0;box-shadow:0 0 0 0;border:0;">
+                <div class="panel-body" style="background-color: #F1F4F9;padding:0 20px 0 0;">
+                    <div class="col-md-2" style="padding: 0 15px;">
+                        <ul class="list-unstyled mailbox-nav " style="padding: 0 10px" id="replyNav">
+                            <li class="href-primary"><a href="javascrpt:void(0)"
+                                                        onclick="reloadReplyList(JSON.stringify({status:{$ne:999}}), this)">
+                                <i class="fa fa-tasks"></i>全部</a></li>
+                            <li class="active href-rss"><a href="javascrpt:void(0)"
+                                                           onclick="reloadReplyList(JSON.stringify({status:0}), this)"><i
+                                    class="fa fa-exclamation-circle"></i>未回复 <span class="badge btn-rss pull-right"
+                                                                                   id="cnt0"></span></a></li>
+                            <li class="href-success"><a href="javascrpt:void(0)"
+                                                        onclick="reloadReplyList(JSON.stringify({status:1}), this)"><i
+                                    class="fa fa-send"></i>已回复 </a></li>
+                        </ul>
+                    </div>
+                    <div class="table-responsive" style="background-color: #FFFFFF; padding: 20px;" id="replyLoadDiv">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

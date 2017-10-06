@@ -1,0 +1,142 @@
+<div class="mailbox-content" style="overflow-y: auto;height: 100%;position: relative">
+    <input type="hidden" value="{{reply}}" id="detail_reply">
+    <input type="hidden" value="{{status}}" id="detail_status">
+    <input type="hidden" value="{{isCommonly}}" id="detail_isCommonly">
+    <div class="message-header">
+        <h3>
+            {% if status == 0 %}
+                <i class="fa fa-exclamation-circle href-rss"></i> <span class="href-rss">(未审核)</span>
+            {% elseif status == 1%}
+                <i class="fa fa-inbox href-twitter"></i> <span class="href-twitter">(未指派)</span>
+            {% elseif status == 2 && reply == 0 %}
+                <i class="fa fa-adjust href-facebook"></i> <span class="href-facebook">(未回复)</span>
+            {% elseif status == 2 && reply != 0 %}
+                <i class="fa fa-check-square-o icon-state-success"></i> <span class="text-success">(已回复)</span>
+            {% elseif status == 2 && reply != 0 && isCommonly == 1 %}
+                <i class="fa fa-star text-info"></i> <span class="text-info">(已标星)</span>
+            {% elseif status == -1%}
+                <i class="fa fa-close f-red"></i> <span class="f-red">(已拒绝)</span>
+            {% elseif status == -2%}
+                <i class="fa fa-remove href-warning"></i> <span class="href-warning">(已删除)</span>
+            {% endif %}
+            &nbsp;<span>标题:</span> {{title}}
+        </h3>
+    </div>
+    <div class="message-sender">
+        <p style="margin-right: 4em;"><i class="fa  fa-user m-r-xs"></i>用户名 <span>: {{username}}</span></p>
+        <p style="margin-right: 4em;"><i class="fa  fa-tags m-r-xs"></i>咨询类型 <span>: {{tag}}</span></p>
+        <p><i class="fa  fa-calendar m-r-xs"></i>咨询时间 <span>: {{createStr}}</span></p>
+    </div>
+    <div class="message-sender">
+        <p style="margin-right: 2em;"><i class="fa  fa-phone m-r-xs"></i>联系电话 <span>: {{telphone}}</span></p>
+        <p><i class="fa  fa-mail-forward m-r-xs"></i>邮箱地址 <span>: {{email}}</span></p>
+    </div>
+    <div class="well well-sm" style="margin-bottom: 10px;">
+        <p>
+           {% if content.longContent != undefined && content.longContent != ''  %}
+                {% autoescape false %}{{ content.longContent|url_decode  }}{% endautoescape %}
+           {% else %}
+                {% autoescape false %}{{ content.shortContent|url_decode }}{% endautoescape %}
+           {% endif %}
+        </p>
+    </div>
+    {% if images && images.length != 0  %}
+    <div class="message-attachments" style="padding:0; ">
+        <p style="margin-bottom: 0;"><i class="fa fa-paperclip m-r-xs"></i>{{images.length}} 张附件图片 - <a href="javascript:void(0)" onclick="$('#grid-gallery .grid-wrap ul li figure img').first().trigger('click')">查看</a></p>
+        <div id="grid-gallery" class="grid-gallery">
+            <section class="grid-wrap">
+                <ul class="grid">
+                    {% for image in images %}
+                    <li>
+                        <figure>
+                            <img src="{{image}}"/>
+                        </figure>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="slideshow">
+                <ul>
+                    {% for image in images %}
+                    <li>
+                        <figure>
+                            <img src="{{image}}"/>
+                        </figure>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <nav>
+                    <span class="fa fa-angle-left nav-prev"></span>
+                    <span class="fa fa-angle-right nav-next"></span>
+                    <span class="fa fa-times nav-close"></span>
+                </nav>
+            </section>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if comments && comments.length != 0  %}
+    {% for comment in comments %}
+    <div class="timeline-comment">
+        <div class="timeline-comment-header">
+            <p style="margin-right: 3em;"><i class="fa  fa-user m-r-xs"></i>回复账号 <span>: {{comment.replyuser}}</span></p>
+            <p style="margin-right: 3em;"><i class="fa  fa-tags m-r-xs"></i>回复时间 <span>: {{comment.replytime}}</span></p>
+        </div>
+        <p class="timeline-comment-text">
+        <div class="well well-sm" style="margin-bottom: 10px;">
+            {% autoescape false %}{{ comment.content|url_decode  }}{% endautoescape %}
+        </div>
+
+        </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="message-options pull-right">
+        <button type="button" class="btn btn-success status0 p-h-md" onclick="changeStatus('1')" hidden><i class="fa  fa-check-square-o m-r-xs"></i>通过</button>
+        <button type="button" class="btn btn-facebook p-h-md status1 status20 status-2 status-1" onclick="changeStatus('0')" hidden><i class="fa fa-undo m-r-xs"></i>撤消</button>
+        <button type="button" class="btn btn-google p-h-md status0" onclick="changeStatus('-1')" hidden><i class="fa  fa-times-circle m-r-xs"></i>拒绝</button>
+        <button type="button" class="btn btn-warning p-h-md status0 status1 status2 status-1" onclick="changeStatus('-2')" hidden><i class="fa  fa-trash m-r-xs"></i>删除</button>
+        <button type="button" class="btn btn-info p-h-md status210" onclick="changeStatus('3')" hidden><i class="fa  fa-star m-r-xs"></i>标星</button>
+        <button type="button" class="btn btn-github  status211" onclick="changeStatus('4')" hidden><i class="fa  fa-star-o m-r-xs"></i>置灰</button>
+        <button class="btn btn-rss status0 status1 p-h-md" type="button" data-toggle="dropdown">
+            指派&nbsp;&nbsp;<span class="caret"></span>
+        </button>
+        <div class="dropdown-menu title-caret col-sm-12" role="menu">
+            <div class="form-inline" role="form">
+                <div style="border-bottom: 1px solid #ddd;padding:20px;background-color: #f5f5f5;"><h4 style="margin: 0px">请选择需要指派任务的古籍馆专家用户</h4></div>
+                {% for reply in replyer%}
+                <div class="checkbox" style="padding:15px 0 15px 20px;">
+                    <label>
+                        <input type="checkbox" name="replyCheck" class="replyCheck" value="{{reply._id.toString()}}">
+                        {{reply.username}}
+                    </label>
+                </div>
+                {% endfor %}
+                <div style="border-top: 1px solid #ddd;padding:15px 20px;display:flex;">
+                    <div class="pull-right col-sm-12" style="padding: 0">
+                        <button type="button" class="btn btn-primary p-h-xxl pull-right" onclick="changeStatus('2')">确定</button>
+                        <button type="button" class="btn btn-default p-h-xxl pull-right" style="margin-right: 10px;" onclick="">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0)" class="btn btn-instagram p-h-md" onclick="backToQuestion()"><i class="fa fa-arrow-circle-left m-r-xs"></i>返回</a>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmQuestionModal">
+    <input type="hidden" id="qaStatus">
+    <input type="hidden" value="{{_id.toString()}}" id="qid">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <span class="modal-title" id="qaConfirmTitle" style="font-size: 16px;font-weight: 500;"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn" style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" onclick="qaConfirmClick()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>

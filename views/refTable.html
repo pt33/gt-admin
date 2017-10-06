@@ -1,0 +1,6 @@
+<select class="form-control" id="fileRefTable" onchange="changeRefField(this)">
+    <option value="">请选择关联表格</option>
+    {% for table in tables%}
+    <option value="{{table.name}}">{{table.title}}</option>
+    {% endfor%}
+</select>

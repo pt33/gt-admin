@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Title -->
+    <link rel="shortcut icon" href="/images/logo.jpg">
+    <title>中华寻根网管理平台</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Styles -->
+    <link href='/css/googlefont.css' rel='stylesheet' type='text/css'>
+    <link href="/plugins/pace-master/themes/blue/pace-theme-flash.css" rel="stylesheet"/>
+    <link href="/plugins/uniform/css/uniform.default.min.css" rel="stylesheet"/>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <link href="/plugins/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/line-icons/simple-line-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/offcanvasmenueffects/css/menu_cornerbox.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/waves/waves.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/switchery/switchery.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/3d-bold-navigation/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/slidepushmenus/css/component.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/weather-icons-master/css/weather-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/metrojs/MetroJs.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="/plugins/summernote/summernote.css" rel="stylesheet">
+
+    <link href="/plugins/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
+    <link href="/plugins/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/icheck/square/blue.css" rel="stylesheet" type="text/css"/>
+    <link href="/plugins/product-preview-slider/css/style.css" rel="stylesheet" type="text/css">
+    <!-- Theme Styles -->
+    <link href="/plugins/gridgallery/css/component.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/css/modern.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/themes/dark.css" class="theme-color" rel="stylesheet" type="text/css"/>
+    <link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+
+    <script src="/plugins/3d-bold-navigation/js/modernizr.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="page-sidebar-fixed" style="background-color: #F1F4F9;overflow: auto;" id="mainBody">
+<main class="page-content content-wrap" style="background-color: #F1F4F9;">
+    <input type="hidden" value="{{adminName}}" id="admin_name">
+    <div class="page-sidebar sidebar" style="padding-top: 0px;">
+        <div class="page-sidebar-inner slimscroll">
+            <div class="sidebar-header" onclick="collapseSidebar()" style="padding-bottom: 10px;">
+                <div class="sidebar-profile">
+                    <a href="javascript:void(0);" id="profile-menu-link">
+                        <div class="sidebar-profile-image">
+                            <img src="/images/logo.jpg" class="img-responsive" style="border-radius: 8px;" height="80px" width="80px" alt="">
+                        </div>
+                        <div class="sidebar-profile-details">
+                            <span style="font-size: 16px;">{{roleName}}<br>{{adminName}}<br><small style="font-size: 14px;">欢迎您回来</small></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <ul class="menu accordion-menu">
+                <li class="li active" id="li-main">
+                    <a href="javascript:void(0)" class="waves-effect waves-button">
+                        <span class="menu-icon glyphicon glyphicon-home"></span><p style="font-size: 15px;font-weight: 500;">首页</p>
+                    </a>
+                </li>
+                {% for data in menus %}
+                <li class="li" id="li-{{data.icon}}">
+                    <a href="javascript:void(0)" class="waves-effect waves-button" onclick="showPage(this,'{{data.url}}')">
+                        <span class="menu-icon {{data.icon}}"></span><p style="font-size: 15px;font-weight: 500;">{{data.name}}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="sidebar-footer" style="height:40px;margin: auto;position: absolute;left: 0; right: 0; bottom: 0;padding: 0 0 0 0;">
+                <button type="button" id="loginBtn" onclick="loginOut()" class="btn btn-success btn-block" style="font-size: 16px;font-weight:500;height: 40px;"><span class="menu-icon glyphicon glyphicon-log-out"></span><span id="logoutSpan">&nbsp;&nbsp;退出</span></button>
+            </div>
+        </div><!-- Page Sidebar Inner -->
+    </div><!-- Page Sidebar -->
+    <div class="page-inner" style="padding-top: 0px;background-color: #F1F4F9;padding-bottom: 0px;" id="mainPageInner"></div>
+</main><!-- Page Content -->
+
+<script src="/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="/plugins/pace-master/pace.min.js"></script>
+<script src="/plugins/jquery-blockui/jquery.blockui.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/plugins/switchery/switchery.min.js"></script>
+<script src="/plugins/uniform/jquery.uniform.min.js"></script>
+<script src="/plugins/waves/waves.min.js"></script>
+<script src="/plugins/waypoints/jquery.waypoints.min.js"></script>
+<script src="/plugins/jquery-counterup/jquery.counterup.min.js"></script>
+<script src="/plugins/toastr/toastr.min.js"></script>
+<script src="/plugins/flot/jquery.flot.min.js"></script>
+<script src="/plugins/flot/jquery.flot.time.min.js"></script>
+<script src="/plugins/flot/jquery.flot.symbol.min.js"></script>
+<script src="/plugins/flot/jquery.flot.resize.min.js"></script>
+<script src="/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="/plugins/jquery-mockjax-master/jquery.mockjax.js"></script>
+<script src="/plugins/moment/moment.js"></script>
+<script src="/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/plugins/curvedlines/curvedLines.js"></script>
+<script src="/plugins/metrojs/MetroJs.min.js"></script>
+<script src="/plugins/select2/js/select2.full.js"></script>
+<script src="/plugins/plupload/js/plupload.full.min.js"></script>
+<script src="/plugins/plupload/js/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+<script src="/plugins/bootstrap-table/bootstrap-table-editable.js"></script>
+<script src="/plugins/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="/plugins/plupload/js/i18n/zh_CN.js"></script>
+<script src="/plugins/fakeloading/spn.js"></script>
+<script src="/plugins/gridgallery/js/imagesloaded.pkgd.min.js"></script>
+<script src="/plugins/gridgallery/js/masonry.pkgd.min.js"></script>
+<script src="/plugins/gridgallery/js/classie.js"></script>
+<script src="/plugins/gridgallery/js/cbpgridgallery.js"></script>
+<script src="/plugins/icheck/icheck.min.js"></script>
+<script src="/plugins/summernote/summernote.js"></script>
+<script src="/plugins/summernote/summernote-zh-CN.js"></script>
+<script src="/js/modern.min.js"></script>
+<script src="/js/pdfobject.js"></script>
+<script src="/js/aes.js"></script>
+<script src="/js/client.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/admin.js"></script>
+<script src="/js/role.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/template.js"></script>
+<script src="/js/questionManager.js"></script>
+<script src="/js/mine.js"></script>
+<script src="/js/tableColumns.js"></script>
+</body>
+</html>

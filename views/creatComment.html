@@ -1,0 +1,96 @@
+<div class="mailbox-content" style="overflow-y: auto;height: 100%;position: relative">
+    <input type="hidden" value="{{info._id.toString()}}" id="qId">
+    <input type="hidden" value="{{_id.toString()}}" id="tid">
+    <div class="message-header">
+        <h3>
+            {% if status == 0 %}
+                <i class="fa fa-exclamation-circle href-rss"></i> <span class="href-rss">(未回复)</span>
+            {% else %}
+                <i class="fa fa-check text-success"></i> <span class="text-success">(已回复)</span>
+            {% endif %}
+            &nbsp;<span>标题:</span> {{title}}
+        </h3>
+    </div>
+    <div class="message-sender">
+        <p style="margin-right: 3em;"><i class="fa  fa-user m-r-xs"></i>用户名 <span>: {{username}}</span></p>
+        <p style="margin-right: 3em;"><i class="fa  fa-tags m-r-xs"></i>咨询类型 <span>: {{tag}}</span></p>
+        <p style="margin-right: 3em;"><i class="fa  fa-calendar m-r-xs"></i>咨询时间 <span>: {{createStr}}</span></p>
+        <p style="margin-right: 3em;"><i class="fa  fa-phone m-r-xs"></i>联系电话 <span>: {{info.telphone}}</span></p>
+        <p style="margin-right: 3em;"><i class="fa  fa-envelope m-r-xs"></i>邮箱地址 : <a href="#">{{info.email}}</a></p>
+    </div>
+    <div class="message-sender">
+        <p style="margin-right: 3em;"><i class="fa  fa-group m-r-xs"></i>指派人 <span>: {{adminname}}</span></p>
+        <p style="margin-right: 3em;"><i class="fa  fa-send-o m-r-xs"></i>指派时间 <span>: {{sendStr}}</span></p>
+    </div>
+    <div class="well well-sm" style="margin-bottom: 10px;">
+        {% if info.content.longContent != undefined && info.content.longContent != ''  %}
+            {% autoescape false %}{{ info.content.longContent|url_decode  }}{% endautoescape %}
+        {% else %}
+            {% autoescape false %}{{ info.content.shortContent|url_decode }}{% endautoescape %}
+        {% endif %}
+    </div>
+    {% if info.images && info.images.length != 0  %}
+    <div class="message-attachments" style="padding:0; ">
+        <p style="margin-bottom: 0;"><i class="fa fa-paperclip m-r-xs"></i>{{info.images.length}} 张附件图片 - <a href="javascript:void(0)" onclick="$('#grid-gallery .grid-wrap ul li figure img').first().trigger('click')">查看</a></p>
+        <div id="grid-gallery" class="grid-gallery">
+            <section class="grid-wrap">
+                <ul class="grid">
+                    {% for image in info.images %}
+                    <li>
+                        <figure>
+                            <img src="{{image}}"/>
+                        </figure>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="slideshow">
+                <ul>
+                    {% for image in info.images %}
+                    <li>
+                        <figure>
+                            <img src="{{image}}"/>
+                        </figure>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <nav>
+                    <span class="fa fa-angle-left nav-prev"></span>
+                    <span class="fa fa-angle-right nav-next"></span>
+                    <span class="fa fa-times nav-close"></span>
+                </nav>
+            </section>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+    {% if comments && comments.length != 0  %}
+        {% for comment in comments %}
+    <div class="timeline-comment">
+        <div class="timeline-comment-header">
+            <p style="margin-right: 3em;"><i class="fa  fa-user m-r-xs"></i>回复账号 <span>: {{comment.replyuser}}</span></p>
+            <p style="margin-right: 3em;"><i class="fa  fa-tags m-r-xs"></i>回复时间 <span>: {{comment.replytime}}</span></p>
+        </div>
+        <p class="timeline-comment-text">
+        <div class="well well-sm" style="margin-bottom: 10px;">
+            {% autoescape false %}{{ comment.content|url_decode  }}{% endautoescape %}
+        </div>
+
+        </p>
+    </div>
+
+        {% endfor %}
+    {% endif %}
+    <div class="compose-message">
+        <div id="questionContent" style="font-size: 15px;"></div>
+    </div>
+    <div class="compose-options">
+        <div class="pull-right">
+            <a href="javascript:void(0)" class="btn btn-instagram p-h-xxl" onclick="backToReply()"><i class="fa fa-arrow-circle-left m-r-xs"></i>返回</a>
+            <a href="javascript:void(0)" class="btn btn-primary p-h-xxl" onclick="commitReply()"><i class="fa fa-check-circle m-r-xs"></i>提交</a>
+        </div>
+    </div>
+</div>
+

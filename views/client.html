@@ -1,0 +1,229 @@
+<div id="main-wrapper">
+    <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-white" style="padding-bottom:0px;">
+                    <div class="panel-heading" style="margin: 0 0 0 0;">
+                        <h4 class="panel-title">栏目管理</h4>
+                    </div>
+                    <div class="panel-body">
+                        <table id="columnFields" class="table table-no-bordered table-hover"></table>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-md-6" style="padding: 0 40px 0 0;">-->
+                <!--<div class="panel panel-white">-->
+                    <!--<div class="panel-heading clearfix">-->
+                        <!--<h4 class="panel-title">网站风格管理</h4>-->
+                    <!--</div>-->
+                    <!--<div class="panel-body">-->
+                        <!--<form class="form-horizontal">-->
+                            <!--<div class="form-group">-->
+                                <!--<div align="left" class="col-sm-6" style="padding-left: 15px;">-->
+                                    <!--<button type="button" class="btn btn-facebook" style="margin: 0 0 0 0;" onclick="addField('{{info._id.toString()}}')">添加解析字段</button>-->
+                                    <!--<button type="button" class="btn btn-google" style="margin: 0 0 0 0;" onclick="addTemplate('{{info.title}}','{{info._id.toString()}}')">保存为模板</button>-->
+                                <!--</div>-->
+                                <!--<div align="right" class="col-sm-6" style="padding-right:15px;">-->
+                                    <!--<select class="form-control" id="chooseExcelTemplate" style="display: block;height: 33px;" onchange="getTemplate(this,'excel')">-->
+                                        <!--<option value="">选择可加载的excel模板</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <!--<div align="right" class="col-sm-6" style="padding-right:15px;">-->
+                                    <!--<select class="form-control" id="chooseMarcTemplate" style="display: none;" onchange="getTemplate(this,'marc')">-->
+                                        <!--<option value="">选择可加载的marc模板</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="col-md-6" id="rightCardView" style="padding-left: 0;">
+                <div class="panel panel-white" style="padding-bottom:0px;">
+                    <div class="panel-heading" style="margin: 0 0 0 0;">
+                        <h4 class="panel-title">审核模式管理</h4>
+                    </div>
+                    <div class="panel-body">
+
+                            <!--<div class="form-group">-->
+
+                                    <input type="radio" name="iCheck">&nbsp;先审核后发布
+                                    <input type="radio" name="iCheck" checked>&nbsp;先发布后审核
+
+                            <!--</div>-->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-white" style="padding-bottom:0px;">
+                    <div class="panel-heading" style="margin: 0 0 0 0;">
+                        <h4 class="panel-title">首页管理</h4>
+                    </div>
+                    <div class="panel-body" style="padding-top: 20px;">
+                        <div class="table-responsive">
+                            <div id="toolbarindex">
+                                <div class="form-inline" role="form" style="margin-top: -2px;">
+                                    <button type="button" class="btn btn-success" onclick="addIndexField()">新增首页栏目</button>
+                                </div>
+                            </div>
+                            <table id="tableListindex" class="display table table-no-bordered table-hover" style="width: 100%; cellspacing: 0;line-height: 20px;"></table></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmColumnModal">
+    <input type="hidden" id="columnId"/>
+    <input type="hidden" id="columnStatus"/>
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <span class="modal-title" id="columnConfirmTitle" style="font-size: 16px;font-weight: 500;">是否确认停用该栏目？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn" style="width: 80px;margin-right: 10px;">否</button>
+                <button type="button" class="btn btn-primary" onclick="columnConfirmClick()" style="width: 80px;">是</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade confirm" id="confirmIndexModal">
+    <input type="hidden" id="indexId"/>
+    <input type="hidden" id="indexStatus"/>
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-top: 30%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <span class="modal-title" id="confirmIndexTitle" style="font-size: 16px;font-weight: 500;">是否确认停用该栏目？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default p-h-xxl" data-dismiss="modal">否</button>
+                <button type="button" class="btn btn-primary p-h-xxl" onclick="indexConfirmClick()">是</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="columnChildModal" tabindex="-1" role="dialog">
+    <input type="hidden" id="childId"/>
+    <input type="hidden" id="columnTable"/>
+    <input type="hidden" id="imgPaths"/>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" style="font-size: 16px;">子栏目编辑</h4>
+            </div>
+            <div class="modal-body" style="padding: 0 0 20px 0;overflow: scroll;height: 600px;">
+                <form class="form-horizontal">
+                    <div class="form-group" style="border:1px solid #ddd;margin:0 10px;" id="childMainView">
+                        <label class="col-sm-2 control-label" style="text-align: right;padding: 10px 0px;width: 11%">是否显示明细:</label>
+                        <div class="col-sm-1" style="padding:10px;width: 12%;border-right:1px solid #ddd;">
+                            <input type="radio" name="showDetail" checked id="showDetail0">&nbsp;否&nbsp;
+                            <input type="radio" name="showDetail" id="showDetail1">&nbsp;是
+                        </div>
+                        <label class="col-sm-1 control-label" style="text-align: right;padding: 10px 0px;width: 8%">显示形式:</label>
+                        <div class="col-sm-1" style="padding:10px;width: 15%;border-right:1px solid #ddd;">
+                            <input type="radio" name="showMode" id="showModepage">&nbsp;单页
+                            <input type="radio" name="showMode" id="showModelist" checked>&nbsp;列表
+                            <input type="radio" name="showMode" id="showModegroup">&nbsp;组合
+                        </div>
+                        <label class="col-sm-2 control-label" style="text-align: right;padding: 10px 0px;width: 15%">是否关联其他资料库:</label>
+                        <div class="col-sm-1" style="padding:10px;width: 12%;border-right:1px solid #ddd;">
+                            <input type="radio" name="hasRef" checked id="hasRef0">&nbsp;否&nbsp;
+                            <input type="radio" name="hasRef" id="hasRef1">&nbsp;是
+                        </div>
+                        <label class="col-sm-2 control-label" style="text-align: right;padding: 10px 0px;width: 14%">是否显示查询条件:</label>
+                        <div class="col-sm-1" style="padding:10px;width: 12%">
+                            <input type="radio" name="showSearch" id="showSearch0">&nbsp;否&nbsp;
+                            <input type="radio" name="showSearch" id="showSearch1" checked>&nbsp;是
+                        </div>
+                    </div>
+                    <div class="form-group" style="border:1px solid #ddd;margin:10px;height: 400px;">
+                        <div class="col-sm-6" style="padding: 0;height: 400px;" id="childSearchTable" >
+                            <label class="col-sm-12 control-label" style="text-align: left;padding: 10px;border-bottom:1px solid #ddd;font-weight: 600;">查询条件配置项</label>
+                            <div class="col-sm-12" style="padding: 0px 10px;">
+                                <table id="childSearchTableFields" class="table table-no-bordered table-hover"></table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="padding: 0;height: 400px;" id="childGroupTable">
+                            <label class="col-sm-12 control-label" style="text-align: left;padding: 10px;border-bottom:1px solid #ddd;font-weight: 600;">分组显示配置项</label>
+                            <div class="col-sm-12" style="padding: 0px 10px;">
+                                <table id="childGroupTableFields" class="table table-no-bordered table-hover"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="childSubView" hidden style="border:1px solid #ddd;margin:10px;">
+                        <label class="col-sm-12 control-label" style="text-align: left;padding: 10px 20px;border-bottom:1px solid #ddd;font-weight: 600;">明细配置项</label>
+                        <label class="col-sm-1 control-label" style="text-align: right;padding: 10px 0px;width: 11%">可收藏:</label>
+                        <div class="col-sm-2" style="padding:10px;border-right:1px solid #ddd;width: 12%">
+                            <input type="radio" name="canCollection" id="canCollection0">&nbsp;否&nbsp;
+                            <input type="radio" name="canCollection" id="canCollection1">&nbsp;是
+                        </div>
+                        <label class="col-sm-1 control-label" style="text-align: right;padding: 10px 0px;width: 8%">可点赞:</label>
+                        <div class="col-sm-2" style="padding:10px;border-right:1px solid #ddd;width: 15%">
+                            <input type="radio" name="canLike" id="canLike0">&nbsp;否&nbsp;
+                            <input type="radio" name="canLike" id="canLike1">&nbsp;是
+                        </div>
+                        <label class="col-sm-1 control-label" style="text-align: right;padding: 10px 0px;width: 15%">可分享:</label>
+                        <div class="col-sm-2" style="padding:10px;border-right:1px solid #ddd;width: 12%">
+                            <input type="radio" name="canShare" id="canShare0">&nbsp;否&nbsp;
+                            <input type="radio" name="canShare" id="canShare1">&nbsp;是
+                        </div>
+                        <label class="col-sm-1 control-label" style="text-align: right;padding: 10px 0px;width: 14%">显示查看数:</label>
+                        <div class="col-sm-2" style="padding:10px;width: 12%">
+                            <input type="radio" name="showViewNum" id="showViewNum0">&nbsp;否&nbsp;
+                            <input type="radio" name="showViewNum" id="showViewNum1">&nbsp;是
+                        </div>
+                        <div class="col-sm-12" style="padding-left: 0;padding-right: 0;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
+                            <label class="col-sm-2 control-label" style="padding: 10px;">明细标题项:</label>
+                            <div class="col-sm-3" style="padding:5px;" id="groupTitleField">
+                            </div>
+                            <label class="col-sm-3 control-label" style="padding: 10px 0px;">是否关联显示影像文件:</label>
+                            <div class="col-sm-3" style="padding:10px;" id="refFile">
+                                <input type="radio" name="refFile" id="refFile0">&nbsp;否&nbsp;
+                                <input type="radio" name="refFile" id="refFile1">&nbsp;是
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding-left: 0;padding-right: 0;border-bottom: 1px solid #ddd;" id="fileRefDiv">
+                            <label class="col-sm-2 control-label" style="padding: 10px;">本资料库关联字段:</label>
+                            <div class="col-sm-2" style="padding:5px;" id="fileMainFieldDiv"></div>
+
+                            <label class="col-sm-2 control-label" style="padding: 10px;">影像文件对应资料库:</label>
+                            <div class="col-sm-2" style="padding:5px;" id="fileRefTableDiv"></div>
+
+                            <label class="col-sm-2 control-label" style="padding: 10px;">对应资料库关联字段:</label>
+                            <div class="col-sm-2" style="padding:5px;" id="fileRefFieldDiv"></div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div id="myCarousel" class="carousel slide">
+                            </div>
+                        </div>
+                        <div class="col-sm-8" style="margin-bottom: 0px;padding-left: 20px;padding-right: 20px;">
+                            <div id="imageUploder"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="childRefTable" hidden style="border:1px solid #ddd;margin:10px;">
+                        <!--<label class="col-sm-10 control-label" style="text-align: left;padding: 10px 20px;border-bottom:1px solid #ddd;font-weight: 600;">关联资料库配置项</label>-->
+                        <div class="col-sm-12" align="left" style="border-bottom:1px solid #ddd;padding: 0;">
+                            <button type="button" class="btn btn-facebook" style="margin: 0 0 0 0;" onclick="addRefTable()">添加关联资料库</button>
+                        </div>
+                        <div class="col-sm-12" style="padding: 0px 20px;">
+                            <table id="childRefTableFields" class="table table-no-bordered table-hover"></table>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 80px;margin-right: 10px;">关闭</button>
+                <button type="button" class="btn btn-primary" style="width: 80px;" onclick="saveChildSearch()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
